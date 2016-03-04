@@ -31,7 +31,8 @@ biol2015 prac 1 notes
 	* right click on the scripts
 	* open with -> Rstudio
 + Potential issues
+	* for loop: will need to explain how a for loop works
 	* the computers don't associate .R scripts with Rstudio: need to open rstudio first then open the script
-	* schoolkids.txt dataset is not the in the teaching folder
-	* attaching datasets
+	* schoolkids.txt dataset is not the in the teaching folder?
+	* attaching datasets: will need to explain never to do this
 	
