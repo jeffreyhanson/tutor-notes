@@ -21,7 +21,7 @@ biol2015 week 2 notes
 * _Why are there two t-tests in the table above? How are the t-values calculated? Calculate them and their associated p-values._
 	+ The t-tests are testing if the model coefficients are significantly different to zero. The first test is for the intercept and the second for the slope. The t-values are calculated by dividing the term estimate ("Estimate") by the the uncerainty ("Std. Error) surrounding this estimate. The t-values are then converted to p-values using the table in the manual. Alternatively, using the R  code `2 * pt(abs(x), df=y, lower=FALSE)` where `x` is the t-statistic and `y` is the residual degrees of freedom in the model. 
 	
-	+ |             | Estimate | Std. Error | t value | Pr(>|t|) | 
+	+ |             | Estimate | Std  Error | t value | Pr(>|t|) | 
 	  |:-----------:|:--------:|:----------:|:-------:|:--------:|
 	  | (Intercept) | 54.382   | 42.659     | 1.275   | 0.214    |
 	  | cpd         | 7.977    | 1.807      | 4.414   | 0.0001   |
