@@ -16,7 +16,7 @@ Week 2 notes
 ### Sample size, errors, and power
 #### Activity 1
 * _Write down the equation that describes the least square regression for the data in example 1 below._
-	+ ntc = 54.382 + cpd * 7.977
+	+ ntc = 54.382 + (cpd * 7.977)
 
 * _Why are there two t-tests in the table above? How are the t-values calculated? Calculate them and their associated p-values._
 	+ The t-tests are testing if the model coefficients are significantly different to zero. The first test is for the intercept and the second for the slope. The t-values are calculated by dividing the term estimate ("Estimate") by the the uncerainty ("Std. Error) surrounding this estimate. The t-values are then converted to p-values using the table in the manual. Alternatively, using the R  code `2 * pt(abs(x), df=y, lower=FALSE)` where `x` is the t-statistic and `y` is the residual degrees of freedom in the model. 
@@ -40,7 +40,7 @@ Week 2 notes
 
 #### Activity 2
 * _Write down the equation that describes the least square regression for the data in example 2 on the next page._
-	+ Rate = 0.3800 + (0.33857 X_1) + (-0.01667 X_2) + (-0.03524 X_3)
+	+ Rate = 0.3800 + (0.33857 * X_1) + (-0.01667 * X_2) + (-0.03524 * X_3)
 	
 	
 * _What can you conclude about the effect of team and Experiment on the Rate response?_
