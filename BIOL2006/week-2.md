@@ -1,4 +1,4 @@
-biol2015 week 2 notes
+Week 2 notes
 =====================
 
 ## pbl workshop
@@ -52,7 +52,7 @@ biol2015 week 2 notes
 	
 	Test significance of each term
 	
-	|                           | Estimate | Std. Error | t value | Pr(>|t|) | 
+	|                           | Estimate | Std. Error | t value | Pr(>&#124;t&#124;) | 
 	|:-------------------------:|:--------:|:----------:|:-------:|:--------:|
 	| (Intercept)               | 0.38     | 0.045      | 8.444   | <0.001   |
 	| ExperimentTreatment       | 0.339    | 0.064      | 5.297   | <0.001   |

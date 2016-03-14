@@ -1,4 +1,4 @@
-biol2015 week 1 notes
+Week 1 notes
 =======================
 
 
