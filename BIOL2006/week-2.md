@@ -99,8 +99,13 @@ Week 2 notes
 	# make plot
 	ggplot(data=df1) +
 		geom_bar(aes(x=group,y=mean), stat='identity') +
-		geom_errorbar(aes(x=group, ymin=mean-se, ymax=mean+se))
+		geom_errorbar(aes(x=group, ymin=mean-se, ymax=mean+se), width=0.5) +
+		theme_classic() + 
+		xlab('Model coefficient') +
+		ylab('Value')
 	```
+	
+![figure](https://paleo13/github.com/tutor-notes/BIOL2006/assets/week2-fig1.png)
 
 # R workshop
 * may need to revert to pdf on the day
