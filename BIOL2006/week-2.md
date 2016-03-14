@@ -17,6 +17,10 @@ Week 2 notes
 #### Activity 1
 * _Write down the equation that describes the least square regression for the data in example 1 below._
 	+ ![equation](http://www.sciweavers.org/tex2img.php?eq=ntc%20%3D%2054.382%20%2B%20cpd%20%5Ctimes%207.977&bc=White&fc=Black&im=png&fs=12&ff=txfonts&edit=0)
+	
+	
+	
+	
 [comment]: <> $$ntc = 54.382 + cpd * 7.977$$
 
 * _Why are there two t-tests in the table above? How are the t-values calculated? Calculate them and their associated p-values._
@@ -42,6 +46,8 @@ Week 2 notes
 #### Activity 2
 * _Write down the equation that describes the least square regression for the data in example 2 on the next page._
 	+ ![equation](http://www.sciweavers.org/tex2img.php?eq=Rate%20%3D%200.3800%20%2B%20%280.33857%20%5Ctimes%20X_1%29%20%2B%20%28-0.01667%20%5Ctimes%20X_2%29%20%2B%20%28-0.03524%20%5Ctimes%20X_3%29&bc=White&fc=Black&im=png&fs=12&ff=txfonts&edit=0)
+	
+	
 [comment]: <> $$Rate = 0.3800 + (0.33857 X_1) + (-0.01667 X_2) + (-0.03524 X_3)$$ 
 	
 	
