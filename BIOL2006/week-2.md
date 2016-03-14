@@ -17,6 +17,7 @@ Week 2 notes
 #### Activity 1
 * _Write down the equation that describes the least square regression for the data in example 1 below._
 	+ $$ntc = 54.382 + cpd * 7.977$$
+	+ ![equation](http://www.sciweavers.org/tex2img.php?eq=ntc%2=%254.382%2+%2cpd%2%27.977&bc=White&fc=Black&im=png&fs=12&ff=arev&edit=)
 
 * _Why are there two t-tests in the table above? How are the t-values calculated? Calculate them and their associated p-values._
 	+ The t-tests are testing if the model coefficients are significantly different to zero. The first test is for the intercept and the second for the slope. The t-values are calculated by dividing the term estimate ("Estimate") by the the uncerainty ("Std. Error) surrounding this estimate. The t-values are then converted to p-values using the table in the manual. Alternatively, using the R  code `2 * pt(abs(x), df=y, lower=FALSE)` where `x` is the t-statistic and `y` is the residual degrees of freedom in the model. 
@@ -71,14 +72,17 @@ Week 2 notes
 	
 * _Calculate the mean for each group using the information above._
 
-	| Group        | Intercept  | X_1     | X_2      | X_3      | Prediction |
-	|              | (0.3800)   |(0.33857)|(-0.01667)|(-0.03524)|            |
-	|:------------:|:----------:|:-------:|:--------:|:--------:|:----------:|
-	| Control, A   |1           |0        |0         |0         | 0.38       |
-	| Control, B   |1           |1        |0         |0         | 0.76       |
-	| Treatment, A |1           |0        |1         |0         | 0.363      |
-	| Treatment, B |1           |1        |1         |1         | 0.667      |
+	| Group        | Intercept (0.38) | X_1 (0.34) | X_2 (-0.02) | X_3 (-0.04) | Prediction |
+	|:------------:|:----------------:|:----------:|:-----------:|:-----------:|:----------:|
+	| Control, A   |1                 |0           |0            |0            | 0.38       |
+	| Control, B   |1                 |1           |0            |0            | 0.76       |
+	| Treatment, A |1                 |0           |1            |0            | 0.363      |
+	| Treatment, B |1                 |1           |1            |1            | 0.667      |
 
+	The predictions are calculated by multiplying the values in each column by the coefficient for that column, and then summing
+	all those values togeather. For example, the prediction for 'Control, A' in the first row is derived using:
+	$$ $1*0.38 + 0*0.34 + 0*-0.02 + 0*0.04 $$
+	
 * _Draw a single Bar Graph the relationship amongst the four group, and add approximate standard errors to each mean._
 	
 	```
