@@ -105,7 +105,7 @@ Week 2 notes
 		ylab('Value')
 	```
 	
-<img src="https://raw.githubusercontent.com/paleo13/tutor-notes/master/BIOL2006/assets/week2-fig1.png" width="1000" height="1000">
+<img src="https://raw.githubusercontent.com/paleo13/tutor-notes/master/BIOL2006/assets/week2-fig1.png" width="500" height="500">
 
 # R workshop
 * may need to revert to pdf on the day
