@@ -20,12 +20,12 @@ biol2015 week 2 notes
 
 * _Why are there two t-tests in the table above? How are the t-values calculated? Calculate them and their associated p-values._
 	+ The t-tests are testing if the model coefficients are significantly different to zero. The first test is for the intercept and the second for the slope. The t-values are calculated by dividing the term estimate ("Estimate") by the the uncerainty ("Std. Error) surrounding this estimate. The t-values are then converted to p-values using the table in the manual. Alternatively, using the R  code `2 * pt(abs(x), df=y, lower=FALSE)` where `x` is the t-statistic and `y` is the residual degrees of freedom in the model. 
-
 	
-|             | Estimate | Std. Error | t value | Pr(>|t|) | 
-|:-----------:|:--------:|:----------:|:-------:|:--------:|
-| (Intercept) | 54.382   | 42.659     | 1.275   | 0.214    |
-| cpd         | 7.977    | 1.807      | 4.414   | 0.0001   |
+	+ |             | Estimate | Std. Error | t value | Pr(>|t|) | 
+	  |:-----------:|:--------:|:----------:|:-------:|:--------:|
+	  | (Intercept) | 54.382   | 42.659     | 1.275   | 0.214    |
+	  | cpd         | 7.977    | 1.807      | 4.414   | 0.0001   |
+	  |          |     |       |    |    |
 
 * _Calculate the F value for the ANOVA table above and its associated p-value?_
 	+ For each term (row in the table), the mean sums of squares ("Mean Sq") are calculated by dividing the sum of squares ("Sum Sq") by the degrees of freedom ("Df"). The F-statistic ("F value") is then calculated by diving the mean sum of squares for the slope (512522) by the residual mean sum of squares for the model (26288.85). The p-value is then calculated using `pf(abs(x), df1, df2, lower=F)` where `x` is the F-value (19.498), `df1` is the degrees of freedom consumed by the slope (1) and `df2` is the residual degrees of freedom (26).
