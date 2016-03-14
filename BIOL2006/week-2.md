@@ -17,7 +17,7 @@ Week 2 notes
 #### Activity 1
 * _Write down the equation that describes the least square regression for the data in example 1 below._
 	+ $$ntc = 54.382 + cpd * 7.977$$
-	+ ![equation](http://www.sciweavers.org/tex2img.php?eq=ntc%2=%254.382%2+%2cpd%2%27.977&bc=White&fc=Black&im=png&fs=12&ff=arev&edit=)
+	+ ![equation](http://www.sciweavers.org/tex2img.php?eq=ntc=54.382+cpd*27.977&bc=White&fc=Black&im=png&fs=12&ff=arev&edit=)
 
 * _Why are there two t-tests in the table above? How are the t-values calculated? Calculate them and their associated p-values._
 	+ The t-tests are testing if the model coefficients are significantly different to zero. The first test is for the intercept and the second for the slope. The t-values are calculated by dividing the term estimate ("Estimate") by the the uncerainty ("Std. Error) surrounding this estimate. The t-values are then converted to p-values using the table in the manual. Alternatively, using the R  code `2 * pt(abs(x), df=y, lower=FALSE)` where `x` is the t-statistic and `y` is the residual degrees of freedom in the model. 
