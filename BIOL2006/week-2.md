@@ -36,7 +36,7 @@ Week 2 notes
 
 * _What can you say about the relationship between smoking cancer according to the results above? Please comment on both the null hypothesis being tested and also on the fit of the model (hint: also calculate R^2)_
 	
-	There seems to be a positive linear relationship between the number of tumor cells and the number of cigarettes smoked per day. The intercept was not found to be significantly different to zero. This suggests that individuals who did not smoke any cigarettes were not associated with any cancer cells. The slope of the regression was, however, found to be significantly different to zero. This suggests that individuals who smoke cigarettes had more tumor cells. This model explained a large amount of variation (R^2 = 512522 / (512522+683510) = 0.95). *However, we should also note that this model is totally inappropriate for analyzing this data since we are using count data. Stay tuned for later in the course when we learn how to deal with this.*
+	There seems to be a positive linear relationship between the number of tumor cells and the number of cigarettes smoked per day. The intercept was not found to be significantly different to zero. This suggests that individuals who did not smoke any cigarettes were not associated with any cancer cells. The slope of the regression was, however, found to be significantly different to zero. This suggests that individuals who smoke cigarettes had more tumor cells. This model explained a large amount of variation (R^2 = 512522 / (512522 + 683510) = 0.95). *However, we should also note that this model is totally inappropriate for analyzing this data since we are using count data. Stay tuned for later in the course when we learn how to deal with this.*
 
 #### Activity 2
 * _Write down the equation that describes the least square regression for the data in example 2 on the next page._
@@ -80,7 +80,7 @@ Week 2 notes
 
 	The predictions are calculated by multiplying the values in each column by the coefficient for that column, and then summing
 	all those values togeather. For example, the prediction for 'Control, A' in the first row is derived using:
-	1*0.38 + 0*0.34 + 0*-0.02 + 0*0.04
+	(1 * 0.38) + (0 * 0.34) +  (0 * -0.02) + (0 * 0.04).
 	
 * _Draw a single Bar Graph the relationship amongst the four group, and add approximate standard errors to each mean._
 	
