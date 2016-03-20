@@ -1,7 +1,24 @@
-Week 2 notes
-=====================
+---
+title: "Week 2 Problem Based Learning and Practical Solutions"
+author: |
+  | Jeffrey O. Hanson$^1$
+  | $^1$School of Biological Sciences, The University of Queensland, Brisbane, QLD, Australia
+  | Correspondance should be addressed to jeffrey.hanson@uqconnect.edu.au
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  rmarkdown::pdf_document:
+    toc: true
+    toc_depth: 5
+    keep_tex: no
+    includes:
+      in_header: preamble-latex.tex
+fontsize: 11pt
+documentclass: article
+bibliography: ref_lib.bib
+csl: reference-style.csl
+---
 
-## pbl workshop
+## Problem based learning workshop
 ### Sample size, errors, and power
 * _How does sample size affect your type 1 error?_
 	+ It doesn't.
@@ -84,32 +101,27 @@ Week 2 notes
 	
 * _Draw a single Bar Graph the relationship amongst the four group, and add approximate standard errors to each mean._
 	
-	```
-	# init
-	library(ggplot2)
-	# create data.frame with means and sds
-	df1 <- data.frame(
-		group=c('Control/A','Control/B', 'Treatment/A', 'Treatment/B'),
-		mean=c(0.38,0.76,0.363,0.667),
-		sd=c(0.141,0.124,0.058,0.142),
-		n=c(7,6,7,6)
-	)
-	# calculate approx errors
-	df1$se <- df1$sd / sqrt(df1$n)
-	# make plot
-	ggplot(data=df1) +
-		geom_bar(aes(x=group,y=mean), stat='identity') +
-		geom_errorbar(aes(x=group, ymin=mean-se, ymax=mean+se), width=0.5) +
-		theme_classic() + 
-		xlab('Model coefficient') +
-		ylab('Value')
-	```
-	
-<img src="https://raw.githubusercontent.com/paleo13/tutor-notes/master/BIOL2006/assets/week2-fig1.png" width="500" height="500">
+```{r}
+# init
+library(ggplot2)
+# create data.frame with means and sds
+df1 <- data.frame(
+	group=c('Control/A','Control/B', 'Treatment/A', 'Treatment/B'),
+	mean=c(0.38,0.76,0.363,0.667),
+	sd=c(0.141,0.124,0.058,0.142),
+	n=c(7,6,7,6)
+)
+# calculate approx errors
+df1$se <- df1$sd / sqrt(df1$n)
+# make plot
+ggplot(data=df1) +
+	geom_bar(aes(x=group,y=mean), stat='identity') +
+	geom_errorbar(aes(x=group, ymin=mean-se, ymax=mean+se), width=0.5) +
+	theme_classic() + 
+	xlab('Model coefficient') +
+	ylab('Value')
+```
 
-# R workshop
-* may need to revert to pdf on the day
-* logout procedure has changed
-* must explain functionals eg. sapply, like a lazy for loop
-* for the question on power analysis - change n=3 and rerun
+
+## \texttt{R} practical session
 
