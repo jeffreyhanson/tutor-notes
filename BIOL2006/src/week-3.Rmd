@@ -88,7 +88,7 @@ The following table gives the observed frequencies
 	pchisq(0.657, df=1, lower.tail=FALSE)
 	```
 	
-	* $\chi^2 = $ `r pchisq(0.657, df=1, lower.tail=FALSE)`
+	* $P = $ `r pchisq(0.657, df=1, lower.tail=FALSE)`
 
 6. _Can you reject the null hypothesis?_
 	
@@ -141,7 +141,7 @@ Here we have a contingency table for case and control individuals genotyped at a
 	* We can then calculate the $\chi^2$ value by subbing our values into the equation.
 	
 	\begin{align*}
-	\chi^2 &= \sum_{i=1}^{n} \frac{O_i - E_i}{E_i} \\
+	\chi^2 &= \sum_{i=1}^{n} \frac{(O_i - E_i)^2}{E_i} \\
 	\chi^2 &= \frac{(23-32.732)^2}{32.732} + \frac{(47-32.732)^2}{32.732} + \frac{(30-32.732)^2}{32.732} +
 	 \frac{(12-32.732)^2}{32.732} + \\
 	 & \frac{(40-32.732)^2}{32.732} + \frac{(48-32.732)^2}{32.732} \\
@@ -166,8 +166,8 @@ Here we have a contingency table for case and control individuals genotyped at a
 	```
 	
 	\begin{align*}
-	\chi^2 &= `r pchisq(31.208, df=2, lower.tail=FALSE)` \\
-	\chi^2 & `r format.pval(pchisq(31.208, df=2, lower.tail=FALSE), eps=0.001)` \\
+	P &= `r pchisq(31.208, df=2, lower.tail=FALSE)` \\
+	P & `r format.pval(pchisq(31.208, df=2, lower.tail=FALSE), eps=0.001)` \\
 	\end{align*}
 
 4. Can you reject the null hypothesis at alpha = 0.05?
@@ -178,7 +178,7 @@ Here we have a contingency table for case and control individuals genotyped at a
 
 1. _Are extinction events, as observed in the fossil record, random in time, or do they have cluster (eg. mass extinctions)? In other words, do species go extinct at random intervals, or species tend to go extinct at the same time? To answer this question, use $\chi^2$ to measure the "fit" of the probability model to the data. Significant lack of fit implies rejection of the null hypothesis of "no departure from the model"._
 
-* Here we have a table that shows the number of time intervals between extinction events. The "number of extinctions" column contains the index (starting at zero) of the extinction (eg. the first extinction has a zero, the second has a one, etc). The "number of time intervals" describes the amount of time that has passed between consecutive extinctions (using a standardised unit of time).
+	* Here we have a table that shows the number of time intervals between extinction events. The "number of extinctions" column contains the index (starting at zero) of the extinction (eg. the first extinction has a zero, the second has a one, etc). The "number of time intervals" describes the amount of time that has passed between consecutive extinctions (using a standardised unit of time).
 	
 	| Number of extinctions | Number of Time Intervals |
 	|:---------------------:|:------------------------:|
@@ -203,12 +203,99 @@ Here we have a contingency table for case and control individuals genotyped at a
 	| 18 | 0 |
 	| 19 | 0 |
 	| 20 | 1 |
+	
+	* We will use the Poisson distribution to express our null hypothesis. An expectation (or prediction) from the Poisson distribution can be calculated using the equation $Pr \{ Y=k|\mu \} = \frac{e^{-\mu} \mu^k }{k!}$ assuming a given value for $\mu$. This expectation is our expected probability. We can then multiply $Pr \{ Y=k|\mu \}$ by the total amount of observed extinction intervals (76) to calculate an expected frequency.
+	
+	* A different $\mu$ value will give us a different expectation for the same input. For example, if we wanted to create an expectation for 5 extinctions, we could chose $\mu = 4$ and this would give us an expected probability of $Pr \{ Y=5|\mu=4 \} = \frac{e^{-4} 4^5}{5!} = \frac{0.018 \times 1024}{5 \times 4 \times 3 \times 2 \times 1} = 0.154$. We can then use this to calculate the expected frequency $0.154 \times 76 = 11.704$. Alternatively, if we used $\mu=8$ we would have an expected probability of $Pr \{ Y=5|\mu=8 \} = \frac{e^{-8} 8^5}{5!} = 0.091$ and an expected frequency of $0.091 \times 76 = 6.916$. We can see that with an observed value of 10 for 5, using $\mu=5$ gives a much closer estimate. So if we want to create a good model for our data using this distribution, we need to pick a good value for $\mu$. 
+	
+	* We will use the following equation to give us a decent $\mu$ value, where $T_i$ is the $i$'th extinction interval.
+	
+	\begin{align*}
+	\mu &= \frac{\sum_{i=1}^{N} (i-1) T_i}{\sum_{i=1}^{N} T_i} \\
+	\mu &= \frac{(0 \times 0) + (1 \times 13) + (2 \times 15) + (3 \times 16) + (4 \times 7) ...}{0 + 13 + 15 + 16 + 7 ...} \\
+	\mu &= 4.21 \\
+	\end{align*}	
+	
+	* Note that if we were feeling particularly clever, we could optimise our $\mu$ value to give us the best possible model assuming a Poisson distribution.
+	
+	* Let's make a quick plot to see how our model compares to the data.
+	
+	```{r}
+	# store data in data.frame
+	ext.DF=data.frame(n.extinctions=0:20,
+		n.intervals=c(0,13,15,16,7,10,4,2,1,2,1,1,0,0,1,0,2,0,0,0,1))
 
+	# make column with prediction
+	ext.DF$predicted.probs <- dpois(ext.DF$n.extinctions, 4.21)
+	ext.DF$predicted.freqs <- ext.DF$predicted.probs * sum(ext.DF[[2]])
+	
+	# make plot
+	library(ggplot2)
+	ggplot(data=ext.DF) +
+		geom_bar(aes(x=n.extinctions, y=n.intervals), stat='identity') +
+		geom_line(aes(x=n.extinctions, y=predicted.freqs)) +
+		geom_point(aes(x=n.extinctions, y=predicted.freqs)) +
+		theme_classic() +
+		xlab('Number of extinctions') +
+		ylab('Time interval between extinctions')
+	```
 
-	* We will use the Poisson distribution to express our null hypothesis. An expectation from the Poisson distribution can be calculated using $Pr \{ Y=k|\mu \} = \frac{e^{-u} \mu^k }{k!}$.
+	* Now that we can see our data. Let's check to see if the Poisson is appropriate here. Some general rules of thumb for the Poisson distribution are:
+		+ No expected frequencies should be less than 1.
+		+ No more than 20\% of the expected frequencies should be less than 5.
+	
+	* **The data breaks one of our rules of thumb for the Poisson distribution**. So, we could either transform the data so that it obeys these rules or pick a different distribution (eg. negative binomial). Here, we will group the data together so that it obeys these rules. Note that the system of grouping we apply can affect the p-value we calculate at the end. So if you have to group your own data, you should think about how to sensibly group the data. The table below shows the groupings we will use. 
+	
+	| Number of extinctions | Number of Time Intervals | Predicted Time Intervals |
+	|:---------------------:|:------------------------:|:------------------------:|
+	| 0 or 1 | 13 | 5.88 |
+	| 2 | 15 | 10 |
+	| 3 | 16 | 14.03 |
+	| 4 | 7 | 14.77 |
+	| 5 | 10 | 12.44 |
+	| 6 | 4 | 8.72 |
+	| 7 | 2 | 5.24 |
+	| $\geq$ 8 | 9 | 4.91 |
+	
+	* Now, let's plot the grouped data.
+	
+	```{r}
+	# store data in data.frame
+	ext2.DF=data.frame(n.extinctions=0:7,
+		n.extinctions.label=c('0 or 1', 2:7, '8+'),
+		n.intervals=c(13,15,16,7,10,4,2,9),
+		predicted.freqs=c(5.88,10,14.03,14.77,12.44,8.72,5.24,4.91))
+	
+	ggplot(data=ext2.DF) +
+		geom_bar(aes(x=n.extinctions, y=n.intervals), stat='identity') +
+		geom_line(aes(x=n.extinctions, y=predicted.freqs)) +
+		geom_point(aes(x=n.extinctions, y=predicted.freqs)) +
+		theme_classic() +
+		xlab('Number of extinctions') +
+		ylab('Time interval between extinctions')
+	```
+	
+	* Now, let's use the $\chi^2$ test to see if our model adequately describes the data, and in turn, see if extinctions cluster in time. 
+		+ First we will have to calculate our test statistic.
+	
+		\begin{align*}
+		\chi^2 &= \sum_{i=1}^{n} \frac{(O_i - E_i)^2}{E_i} \\
+		\chi^2 &= \frac{13-5.88}{5.88} + \frac{15-10}{10} + \frac{16-14.03}{14.03} + \frac{7-14.77}{14.77} + \\
+		& \frac{10-12.44}{12.44} + \frac{4-8.72}{8.72} + \frac{2-5.24}{5.24} + \frac{9-4.91}{4.91} \\
+		\chi^2 &= 23.929 \\
+		\end{align*}
+	
+	* Second, we will need to calculate the degrees of freedom ($df$). This can be calculated as the number of samples in our grouped data (8) minus 2. Thus our $df=6$.
+	
+	* Finally, at long last, we can calculate our p-value using the \texttt{R} code.
+	
+	```{r,eval=F}
+	pchisq(23.929, df=6, lower.tail=FALSE)
+	```
+	
+	* Our p-value is `r  format.pval(pchisq(23.929, df=6, lower.tail=FALSE))`. Therefore the predictions from our model are significantly different to the observed data, and so we cannot reject the null hypothesis. Thus we do not yet have evidence to suggest that extinctions cluster in time.
 	
 	
-
 ## \texttt{R} practical session
 
 
