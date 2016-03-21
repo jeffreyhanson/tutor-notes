@@ -63,16 +63,7 @@ The following table gives the observed frequencies
 	
 4. _What are the degrees of freedom?_
 
-	* To help understand how we calculate the degrees of freedom ($df$) let us first think about our data. We have individuals with combinations of different shape (round vs. wrinkled) and colors (green vs. yellow). We can think of shape and colors as different variables along which individuals can vary. We can use this equation to calculate the degrees of freedom.
-	
-	\begin{align*}
-	df &= (\text{number of groups in 1st variable} - 1) \times (\text{number of groups in 2nd variable} - 1) \\
-	df &= (\text{number shapes} - 1) \times (\text{number colors} - 1) \\
-	df &= (2 - 1) \times (2 - 1) \\
-	df &= 1 \\
-	\end{align*}
-	
-	* **If this doesn't make sense, the example in second exercise is easier to understand.**
+	* Here our degrees of freedom ($df$) is 3. This is because it is our sample size - 1.
 	
 5. _What is the associated p-value?_
 	
@@ -104,22 +95,24 @@ Here we have a contingency table for case and control individuals genotyped at a
 
 1.  _Calculate the expected values for each cell?_
 
-	* First we need to propose a null hypothesis. Here, our null hypothesis will be that each outcome (eg. Case/AA) has an equal probability of occurring. Since there are six possible outcomes and our null hypothesis is that each outcome has an equal chance of occurring, each outcome has a probability of $\frac{1}{6}$.
+	* We can calculate the expected values for each cell using the equation below, where $R$ is the number of rows and $C$ is the number of columns.
+	$E_ij  = \frac{\sum_{r=1}^{R} O_{r,j} \times \sum_{c=1}^{C} O_{i,C}}{\sum_{r=1}^{R} \sum_{c=1}^{C} O_{r,c}}$
 	
-	* We can express these expected probabilities using a contingency table. 
+	* First, let's calculuate the row and column totals
+	| Affection status | AA  | AB  | BB  | _Row totals_ |
+	|:----------------:|:---:|:---:|:---:|:----------:|
+	| Case             | $23$  | $47$  | $30$  | 100           | 
+	| Control          | $12$  | $40$  | $48$  | 100           | 
+	| _Column totals_    | $35$  | $98$  | $67$  | _Total_ = 200           | 
 	
-	| Affection status | AA | AB | BB |
-	|:----------------:|:---:|:---:|:---:|
-	| Case             | $\frac{1}{6}=0.1667$ | $\frac{1}{6}=0.1667$ | $\frac{1}{6}=0.1667$ |
-	| Control          |$\frac{1}{6}=0.1667$  | $\frac{1}{6}=0.1667$ | $\frac{1}{6}=0.1667$ |
+	* Now, lets apply the equation to calculate expected values. 
+	| Affection status | AA  | AB  | BB  | _Row totals_ |
+	|:----------------:|:---:|:---:|:---:|:----------:|
+	| Case             | $\frac{35 \times 100}{200} = 17.5$  | $\frac{98 \times 100}{200} = 49$  | $\frac{67 \times 100}{200} = 33.5$  | 100           | 
+	| Control          | $\frac{35 \times 100}{200} = 17.5$  | $\frac{98 \times 100}{200} = 49$  | $\frac{67 \times 100}{200} = 33.5$  | 100           | 
+	| _Column totals_    | $35$  | $98$  | $67$  | _Total_ = 200           | 
 	
-	* We can then multiply these expected probabilities by the number of replicates in the experiment ($23+46+30+12+40+45 = 196$) to calculate the expected frequencies
 	
-	| Affection status | AA | AB | BB |
-	|:----------------:|:---:|:---:|:---:|
-	| Case             | $0.167 \times 196 = 32.732$ | $0.167 \times 196 = 32.732$ | $0.167 \times 196 = 32.732$ |
-	| Control          | $0.167 \times 196 = 32.732$  | $0.167 \times 196 = 32.732$ | $0.167 \times 196 = 32.732$ |
-
 2. _Perform a $\chi^2$ test on those values._
 
 	* Let's refresh our memory on what our observed frequencies are.
@@ -133,8 +126,8 @@ Here we have a contingency table for case and control individuals genotyped at a
 	
 	| Affection status | AA | AB | BB |
 	|:----------------:|:---:|:---:|:---:|
-	| Case             | $32.732$ | $32.732$ | $32.732$ |
-	| Control          | $32.732$  | $32.732$ | $32.732$ |
+	| Case             | $17.5$ | $49$ | $67$ |
+	| Control          | $17.5$  | $49$ | $67$ |
 
 	* We can calculate the $\chi^2$ value using this equation $\chi^2 = \sum_{i=1}^{n} \frac{O_i - E_i}{E_i}$.
 	
@@ -142,16 +135,16 @@ Here we have a contingency table for case and control individuals genotyped at a
 	
 	\begin{align*}
 	\chi^2 &= \sum_{i=1}^{n} \frac{(O_i - E_i)^2}{E_i} \\
-	\chi^2 &= \frac{(23-32.732)^2}{32.732} + \frac{(47-32.732)^2}{32.732} + \frac{(30-32.732)^2}{32.732} +
-	 \frac{(12-32.732)^2}{32.732} + \\
-	 & \frac{(40-32.732)^2}{32.732} + \frac{(48-32.732)^2}{32.732} \\
-	\chi^2 &= 2.894 + 6.219 + 0.228 + 13.131 + 1.614 + 7.122 \\
-	\chi^2 &= 31.208 \\
+	\chi^2 &= \frac{(23-17.5)^2}{17.5} + \frac{(47-49)^2}{49} + \frac{(30-67)^2}{67} +
+	 \frac{(12-17.5)^2}{17.5} + \\
+	 & \frac{(40-49)^2}{49} + \frac{(48-67)^2}{67} \\
+	\chi^2 &= 1.729 + 0.082 + 20.433 + 1.729 + 1.653 + 5.388 \\
+	\chi^2 &= 31.014 \\
 	\end{align*}
 
 3. _Find the associated p-value._
 
-	+ First we need to calculate the degrees of freedom. Since our data is in a contingency table we can do this with **one simple trick**.
+	+ First we need to calculate the degrees of freedom ($df$). Since we generated our expected values using row and column totals we calculate our degrees of freedom ($df$) with **one simple trick**.
 	
 	\begin{align*}
 	df &= (\text{number of rows} - 1) \times (\text{number of columns} - 1) \\
@@ -159,15 +152,15 @@ Here we have a contingency table for case and control individuals genotyped at a
 	df &= 2 \\
 	\end{align*}
 	
-	+ Now that we have the degrees of freedom ($df=2$) and our $\chi^2$ statistic (31.208) which we calculated earlier, we can calculate the p-value using the following \texttt{R} code.
+	+ Now that we have the degrees of freedom ($df=2$) and our $\chi^2$ statistic (31.014) which we calculated earlier, we can calculate the p-value using the following \texttt{R} code.
 	
 	```{r, eval=FALSE}
-	pchisq(31.208, df=2, lower.tail=FALSE)
+	pchisq(31.014, df=2, lower.tail=FALSE)
 	```
 	
 	\begin{align*}
-	P &= `r pchisq(31.208, df=2, lower.tail=FALSE)` \\
-	P & `r format.pval(pchisq(31.208, df=2, lower.tail=FALSE), eps=0.001)` \\
+	P &= `r pchisq(31.014, df=2, lower.tail=FALSE)` \\
+	P & `r format.pval(pchisq(31.014, df=2, lower.tail=FALSE), eps=0.001)` \\
 	\end{align*}
 
 4. Can you reject the null hypothesis at alpha = 0.05?
@@ -297,5 +290,82 @@ Here we have a contingency table for case and control individuals genotyped at a
 	
 	
 ## \texttt{R} practical session
+### P1. Example 1: mendelian ratios
+```{r}
+Observed <- c(56,19,17,8)				# enter observed counts 
+# calculate expected counts 
+ratio <- c(9,3,3,1)					# expected ratios 
+probs <- ratio/sum(ratio)				# convert ratios to proportions 
+Expected <- sum(Observed)*probs		# distribute data across those proportions 
+Expected								# look at the expected counts 
+# compare observed and expected using Pearson's chi-square statistic 
+x2 <- sum((Observed-Expected)^2/Expected)	# Pearson's chi-square statistic 
+x2						             	# look at Pearson's test-statistic 
+pchisq(x2, df=3, lower.tail=FALSE)  	# estimate p-value  
+```
 
+### P2. Example 2: poisson counts
+```{r}
+Observed <- c(16,19,9,4,2)				# enter observed counts 
+# calculate expected counts 
+lambda <- (0:4 %*% Observed)/sum(Observed)	#  poisson mean (lambda) of data 
+probs <- c(dpois(0:3, lambda), 1-sum(dpois(0:3, lambda)))	# expected proportions 
+Expected <- sum(Observed)*probs		# distribute data across those proportions 
+Expected								# look at the expected counts 
+# compare observed and expected using Pearson's chi-square statistic 
+x2 <- sum((Observed-Expected)^2/Expected)	# Pearson's chi-square statistic 
+x2						             	# look at Pearson's test-statistic 
+pchisq(x2, df=3, lower.tail=FALSE)  	# estimate p-value  
+```
 
+### P3. Barplot comparing observed and expected
+```{r}
+# align observed and expected data 
+PoissonModelData <- as.matrix(cbind(Observed,Expected)) 
+# Display Observed and Expected as two barplots side-by-side 
+Xlocations <- barplot(PoissonModelData,	#enter two aligned columns of numbers  
+beside=T,# put barplots side-by-side on the same graph 
+names.arg=c("0","1","2","3","4+","0","1","2","3","4+"),# X-axis tick labels  
+ylab="Frequency",									# label the vertical axis 
+xlab="Count")										# label the horizontal axis 
+par(xpd=T)									# allow printing outside of plot area 
+text(1,22,"Observed",cex=1.5,adj=0)					# Title for first barplot 
+text(7,22,"Expected",cex=1.5,adj=0)					# Title for second barplot 
+```
+
+### P4. Example 3: contingency table analysis 
+```{r}
+Observed <- matrix(c(5,8,9,12,2,4),nrow=2,ncol=3,byrow=TRUE) 
+Observed # have a look at the table of observed counts 
+# calculate expected counts 
+SexCount    <- matrix( rowSums(Observed),nrow=2,ncol=1 ) # calculate row totals 
+StatusCount <- matrix( colSums(Observed),nrow=1,ncol=3 ) # column totals 
+Expected <- (SexCount %*% StatusCount )/sum(Observed) # expected counts 
+Expected								# look at the expected counts 
+# compare observed and expected using Pearson's chi-square statistic 
+x2 <- sum((Observed-Expected)^2/Expected)	# Pearson's chi-square statistic 
+x2						             	# look at Pearson's test-statistic 
+pchisq(x2, df=2, lower.tail=FALSE)  	# estimate p-value  
+```
+
+### P5. Log-linear modelling
+```{r}
+Observed <- c(5,8,9,12,2,4)							# enter observed counts 
+Sex <- c("F","F","F","M","M","M")			# enter the genders  
+Status <- c("Reg","Occ","Non","Reg","Occ","Non")	# enter 'smoking status' 
+table <- data.frame(Observed,Sex,Status)		# collect data as a data.frame
+attach(table)									# make it the default data set 
+# Fit a loglinear regression model 
+library(MASS) # load the library that contains the 'loglm' function 
+# regress 'Status' and 'Sex' onto 'Observed' 
+fit <- loglm(Observed ~ Sex + Status) 
+anova(fit)										# look at the test statistics 
+```
+
+### P6. Generalized-linear modelling
+```{r}
+# regress 'Status', 'Sex' and their interaction onto 'Observed' 
+fit <- glm(Observed ~ Sex * Status, family="poisson")  
+anova(fit,test="Chisq")  			# look at the test statistics 
+summary(fit)							# look at regression coefficients
+```

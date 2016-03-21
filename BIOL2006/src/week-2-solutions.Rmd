@@ -19,55 +19,65 @@ csl: reference-style.csl
 ---
 
 ## Problem based learning workshop
-### Sample size, errors, and power
-* _How does sample size affect your type 1 error?_
-	+ It doesn't.
-* _How does sample size affect your type 2 error?_
-	+ Increases in sample size reduce type 2 error.
-* _Discuss some key elements that will maximise the power of your experiment_
-	+ Effect size - the bigger the expected difference the more power you have.
-	+ Sample size - the more replicates you have; the more power you have.
-* _If you had limited resources (ie. small N), could you still increase the power of your experiment?_
-	+ Yes, select treatments that will maximimise the expected effect size.
-
-### Sample size, errors, and power
 #### Activity 1
-* _Write down the equation that describes the least square regression for the data in example 1 below._
-	+ ntc = 54.382 + (cpd * 7.977)
+1. _How does sample size affect your type 1 error?_
+	* It doesn't.
+2. _How does sample size affect your type 2 error?_
+	* Increases in sample size reduce type 2 error.
+3. _Discuss some key elements that will maximise the power of your experiment_
+	* Effect size - the bigger the expected difference the more power you have.
+	* Sample size - the more replicates you have; the more power you have.
+4. _If you had limited resources (ie. small N), could you still increase the power of your experiment?_
+	* Yes, select treatments that will maximimise the expected effect size.
 
-* _Why are there two t-tests in the table above? How are the t-values calculated? Calculate them and their associated p-values._
-	+ The t-tests are testing if the model coefficients are significantly different to zero. The first test is for the intercept and the second for the slope. The t-values are calculated by dividing the term estimate ("Estimate") by the the uncerainty ("Std. Error) surrounding this estimate. The t-values are then converted to p-values using the table in the manual. Alternatively, using the R  code `2 * pt(abs(x), df=y, lower=FALSE)` where `x` is the t-statistic and `y` is the residual degrees of freedom in the model. 
+#### Activity 2; 1 continuous X variable
+1. _Write down the equation that describes the least square regression for the data in example 1 below._
+	+ $ntc = 54.382 + (cpd \times 7.977)$
+
+2. _Why are there two t-tests in the table above? How are the t-values calculated? Calculate them and their associated p-values._
+	* The t-tests are testing if the model coefficients are significantly different to zero. The first test is for the intercept and the second for the slope. 
+	* The t-values are calculated by dividing the term estimate ("Estimate") by the the uncerainty ("Std. Error) surrounding this estimate. 
+	* The t-values are then converted to p-values using the table in the manual. Alternatively, use the R  code below, where `x` is the t-statistic and `y` is the residual degrees of freedom in the model. 
 	
-	+ |             | Estimate | Std. Error | t value | Pr(>&#124;t&#124;) | 
+	```{r, eval=FALSE}
+	2 * pt(abs(x), df=y, lower=FALSE)`
+	```
+	
+	* |             | Estimate | Std. Error | t value | Pr(>&#124;t&#124;) | 
 	  |:-----------:|:--------:|:----------:|:-------:|:--------:|
 	  | (Intercept) | 54.382   | 42.659     | 1.275   | 0.214    |
 	  | cpd         | 7.977    | 1.807      | 4.414   | 0.0001   |
 
-* _Calculate the F value for the ANOVA table above and its associated p-value?_
-	+ For each term (row in the table), the mean sums of squares ("Mean Sq") are calculated by dividing the sum of squares ("Sum Sq") by the degrees of freedom ("Df"). The F-statistic ("F value") is then calculated by diving the mean sum of squares for the slope (512522) by the residual mean sum of squares for the model (26288.85). The p-value is then calculated using `pf(abs(x), df1, df2, lower=F)` where `x` is the F-value (19.498), `df1` is the degrees of freedom consumed by the slope (1) and `df2` is the residual degrees of freedom (26).
+3. _Calculate the $F$ value for the ANOVA table above and its associated p-value?_
+	* For each term (row in the table), the mean sums of squares ("Mean Sq") are calculated by dividing the sum of squares ("Sum Sq") by the degrees of freedom ("Df").
+	* The F-statistic ("F value") is then calculated by diving the mean sum of squares for the slope (512522) by the residual mean sum of squares for the model (26288.85).
+	* The p-value is then calculated using the \texttt{R} code below, where `x` is the F-value (19.498), `df1` is the degrees of freedom consumed by the slope (1) and `df2` is the residual degrees of freedom (26).
 	
-	+ |             | Df  | Sum Sq | Mean Sq | F value | Pr(>F) |
+	```{r, eval=FALSE}
+	pf(abs(x), df1, df2, lower=F)
+	```
+	
+	 |             | Df  | Sum Sq | Mean Sq | F value | Pr(>F) |
 	  |:-----------:|:---:|:------:|:-------:|:-------:|:------:|
 	  | cpd         | 1   | 512522 | 512522  |19.498   | 0.0001 |
 	  | Residuals   | 26  | 683510 |26288.85 |         |        |
 
-* _What can you say about the relationship between smoking cancer according to the results above? Please comment on both the null hypothesis being tested and also on the fit of the model (hint: also calculate R^2)_
+4. _What can you say about the relationship between smoking cancer according to the results above? Please comment on both the null hypothesis being tested and also on the fit of the model (hint: also calculate $R^2$)_
 	
-	There seems to be a positive linear relationship between the number of tumor cells and the number of cigarettes smoked per day. The intercept was not found to be significantly different to zero. This suggests that individuals who did not smoke any cigarettes were not associated with any cancer cells. The slope of the regression was, however, found to be significantly different to zero. This suggests that individuals who smoke cigarettes had more tumor cells. This model explained a large amount of variation (R^2 = 512522 / (512522 + 683510) = 0.95). *However, we should also note that this model is totally inappropriate for analyzing this data since we are using count data. Stay tuned for later in the course when we learn how to deal with this.*
+	* There seems to be a positive linear relationship between the number of tumor cells and the number of cigarettes smoked per day. The intercept was not found to be significantly different to zero. This suggests that individuals who did not smoke any cigarettes were not associated with any cancer cells. The slope of the regression was, however, found to be significantly different to zero. This suggests that individuals who smoke cigarettes had more tumor cells. This model explained a large amount of variation ($R^2 = \frac{512522}{512522 + 683510} = 0.95$). **However, we should also note that this model is totally inappropriate for analyzing this data since we are using count data. Stay tuned for later in the course when we learn how to deal with this.**
 
-#### Activity 2
-* _Write down the equation that describes the least square regression for the data in example 2 on the next page._
-	+ Rate = 0.3800 + (0.33857 * X_1) + (-0.01667 * X_2) + (-0.03524 * X_3)
+#### Activity 2; 2 nominal X variables
+1. _Write down the equation that describes the least square regression for the data in example 2 on the next page._
+	+ $Rate = 0.3800 + (0.33857 \times X_1) + (-0.01667 \times X_2) + (-0.03524 \times X_3)$
 	
 	
-* _What can you conclude about the effect of team and Experiment on the Rate response?_
+2. _What can you conclude about the effect of team and Experiment on the Rate response?_
 	Looking at the boxplots, there doesn't seem to be much difference between Team A or Team B. The treatment group has slightly higher values than the control group.
 	
 
-#### Activity 3
-* _Is there a significant interactions between TEAM and EXPERIMENT?_
+3. _Is there a significant interactions between TEAM and EXPERIMENT?_
 	
-	Test significance of each term
+	a) _Test significance of each term_
 	
 	|                           | Estimate | Std. Error | t value | Pr(>&#124;t&#124;) | 
 	|:-------------------------:|:--------:|:----------:|:-------:|:--------:|
@@ -86,9 +96,9 @@ csl: reference-style.csl
 	| Residuals       | 22  | 0.318  |0.014    |         |        |
 
 	
-* _Calculate the mean for each group using the information above._
+	b) _Calculate the mean for each group using the information above._
 
-	| Group        | Intercept (0.38) | X_1 (0.34) | X_2 (-0.02) | X_3 (-0.04) | Prediction |
+	| Group        | Intercept (0.38) | $X_1$ (0.34) | $X_2$ (-0.02) | $X_3$ (-0.04) | Prediction |
 	|:------------:|:----------------:|:----------:|:-----------:|:-----------:|:----------:|
 	| Control, A   |1                 |0           |0            |0            | 0.38       |
 	| Control, B   |1                 |1           |0            |0            | 0.76       |
@@ -96,10 +106,9 @@ csl: reference-style.csl
 	| Treatment, B |1                 |1           |1            |1            | 0.667      |
 
 	The predictions are calculated by multiplying the values in each column by the coefficient for that column, and then summing
-	all those values togeather. For example, the prediction for 'Control, A' in the first row is derived using:
-	(1 * 0.38) + (0 * 0.34) +  (0 * -0.02) + (0 * 0.04).
+	all those values togeather. For example, the prediction for 'Control, A' in the first row is derived using: $(1 \times 0.38) + (0 \times 0.34) +  (0 \times -0.02) + (0 \times 0.04)$
 	
-* _Draw a single Bar Graph the relationship amongst the four group, and add approximate standard errors to each mean._
+	c) _Draw a single bar graph the relationship amongst the four group, and add approximate standard errors to each mean._
 	
 ```{r}
 # init
@@ -122,6 +131,139 @@ ggplot(data=df1) +
 	ylab('Value')
 ```
 
-
 ## \texttt{R} practical session
+### P1. Entering the data
+```{r}
+# Enter the data from Research Team A. 
+ControlA <- c(0.2, 0.4, 0.5, 0.38, 0.6, 0.2, 0.8, 0.4, 0.4, 0.2) 
+TreatmentA <- c(0.6, 0.8, 0.7, 0.8, 0.7, 0.6, 0.3, 0.6, 0.5, 0.9) 
+# Enter the data from Research Team B. 
+ControlB <- c(0.3, 0.6, 0.2) 
+TreatmentB <- c(0.99, 0.7, 0.6) 
+# Check the data 
+ControlA ; TreatmentA 
+ControlB ; TreatmentB  
+```
 
+### P2. Calculating summary statistics
+```{r}
+# Measures of “central tendency” of data 
+meanControlA <- mean(ControlA) # calculate the mean of TeamA control group  
+meanTreatmentA <- mean(TreatmentA) # calculate the median of TeamA control group  
+# Measures of “spread” of data 
+range(ControlA) 				# calculate the range 
+var(ControlA) 					# calculate the variance 
+sd(ControlA)  				# calculate the standard deviation 
+sqrt(var(ControlA)) 				# another way to calculate standard deviation 
+sd(ControlA)/sqrt(length(ControlA)) 	# standard error 
+# Repeat all of the above for Research Team B.
+```
+
+### P3. Calculating summary statistics across a data frame
+```{r}
+teamA <- data.frame(cbind(ControlA ,TreatmentA))	  # make a data frame 
+teamA		                                          # have a look at it 
+sapply(teamA,mean) 				# calculate the mean of each column 
+sapply(teamA,var) 				# calculate the variance of each column  
+sapply(teamA,sum) 				# calculate the sum of each column  
+sapply(teamA,min) 				# calculate the minimum of each column  
+sapply(teamA,max) 				# calculate the maximum of each column 
+sapply(teamA, quantile) 			# median and quartiles of each column 
+sapply(teamA, range) 			# calculate the range of each column 
+sapply(teamA, length) 			# calculate the sample size of each column 
+# Repeat all of the above for Research Team B.
+```
+
+### P4. Hypothesis testing: the T-test
+```{r}
+attach(teamA)			# make 'teamA' the default data set 
+t.test(ControlA, TreatmentA,var.equal=TRUE) # T-test: ControlA versus TreatmentA 
+power.t.test(    # calculate Power of T-test, and output the variable set "NULL"  
+n = 10, 		# sample size of each group 
+delta =  mean(TreatmentA) - mean(ControlA), # difference between the two means 
+sd =  sd(ControlA),  # set a common standard deviation 
+sig.level = 0.05, # set a Type I error rate 
+power = NULL, # set the statistical power (1 - Type II error rate) 
+type = "two.sample", # request a T-test comparing means of two groups 
+alternative = "one.sided" # alternative to null hypothesis is Treatment > Control 
+) # end  "power.t.test("  command 
+# Repeat all of the above for Research Team B. 
+```
+
+### P5. Graph of power versus effect size
+```{r}
+EffectSize <- seq(0.0, 0.4, 0.01) 	# set various effects sizes 
+Power <- vector()			# request space to hold the power estimates 
+length(Power) = length(EffectSize)  # allocate space to hold the power estimates 
+for (i in 1:length(EffectSize) ){	# loop through the effect sizes 
+Power[i] <- power.t.test(		# record the output at the "ith" place in "Power"  
+n = 10, 			# sample size of each group 
+delta = EffectSize[i],     # "ith" effect size : difference between the two means 
+sd =  sd(ControlA),        # set a common standard deviation 
+sig.level = 0.05,          # set a Type I error rate 
+power = NULL,              # set the statistical power (1 - Type II error rate) 
+type = "two.sample",       # request a T-test comparing means of two groups 
+alternative = "one.sided")$power} # select the element called power then re-loop 
+plot(EffectSize,Power,type="b")	# graph power against effect size 
+# Repeat all of the above for Research Team B.
+```
+
+### P6. Regression on single, continuous explanatory variable
+```{r}
+FingerData <- data.frame(index=rnorm(100), ring=rnorm(100),
+gender=sample(c('m', 'f'), 100, replace=TRUE)) # create FingerData table
+attach(FingerData)		# make 'FingerData' the default data set 
+plot(index,ring)		# plot "index" (X) against "ring" (Y) 
+fit <- lm( ring ~ index )	# regress "ring" (Y) on "index" (X) 
+summary(fit)			# summary of regression coefficients 
+abline(fit)			# plot of "ring" versus "index" with regression line added 
+anova(fit)			# ANOVA table 
+names(fit)			# list the elements of "fit" 
+names(summary(fit))		# list the elements of "summary(fit)"  
+```
+
+
+### P7. Regression on two explanatory variables: one nominal, one continuous
+```{r}
+plot(index,ring,type="n")					# set up an empty graph 
+points(index[gender=="m"],ring[gender=="m"],col="blue")	# add points for males 
+points(index[gender=="f"],ring[gender=="f"],col="red")	# add points for females 
+# add a legend 
+legend("bottomright",legend=c("female","male"),pch=1,col=c("red","blue"))
+fit <- lm( ring ~ index * gender ) 	# regress 'ring' on 'index' and 'gender' 
+beta <- fit$coefficients		# extract the regression coefficients from 'fit' 
+xvalues <- seq(min(index), max(index), 1)	# set up trial values for X  
+# predict Y values for females 
+yfemales <- beta[1] + beta[2]*xvalues
+# predict Y values for males 
+ymales <- (beta[1] + beta[3]) + (beta[2] + beta[4])*xvalues 
+lines(xvalues,ymales,type="l",col="blue")	# plot the regression line for males 
+lines(xvalues,yfemales,type="l",col="red")	# plot the regression line for females 
+```
+
+### P8. A data set containing two nominal, explanatory variables
+```{r}
+TreatmentA <- c(0.6, 0.8, 0.7, 0.8, 0.7, 0.6, 0.3, 0.6, 0.5, 0.9) 
+ControlA <- c(0.2, 0.4, 0.5, 0.38, 0.6, 0.2, 0.8, 0.4, 0.4, 0.2) 
+TreatmentB <- c(0.99, 0.7, 0.6) 
+ControlB <- c(0.3, 0.6, 0.2) 
+teamA <- data.frame(cbind(ControlA ,TreatmentA)) # make a data frame for 'teamA' 
+teamB <- data.frame(cbind(ControlB ,TreatmentB)) # make a data frame for 'teamB' 
+colnames(teamA) <- c("Control", "Treatment")
+colnames(teamB) <- c("Control", "Treatment") 
+dataA <- stack(teamA)	# stack 'ControlA' and 'TreatmentA' 
+dataB <- stack(teamB)   # stack 'ControlB' and 'TreatmentB' 
+dataA$team <- 'teamA' ;  dataB$team <- 'teamB' # add indicators for 'team' 
+CancerStudy <- data.frame(rbind(dataA,dataB))  # assemble everything into data frame 
+CancerStudy			# have a look at the data set you have created 
+```
+
+### P9. Regression with two nominal variables
+```{r}
+# regress 'team' and 'treatment' (ind) onto survival 
+fit <- lm(values~ind*team, data=CancerStudy)
+summary(fit)					 # look at the regression coefficients 
+anova(fit) 					# look at the ANOVA table 
+par(mfrow=c(2,2)) # set up plotting device as 2x2 grid
+plot(fit) 					# look at various diagnostic graphics 
+```

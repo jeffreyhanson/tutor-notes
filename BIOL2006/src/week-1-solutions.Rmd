@@ -50,4 +50,101 @@ csl: reference-style.csl
 * Potential issues
 	* the computers don't associate .R scripts with Rstudio: need to open Rstudio first then open the script
 	* attaching datasets: **never to do this even though it looks handy**
-	
+
+### P1. Using R as a calculator
+```{r}
+1 + 2 
+log(10)/( 41 + exp(33.8)) 
+x <- (48 + 34)/5.5       # store the result as 'x' 
+x         # look at the contents of 'x' 
+y <- x + 3 
+x*y 
+```
+
+### P2. Joining stuff together
+```{r}
+stuff <- c(1,"cat", 4.5, 6, "elephant") 	# create some "stuff" 
+class(stuff) 					# what type is it?  
+stuff				# have a look ; note that "4.5" is not a number! 
+numbers <- c(1,2.8,3,4.5,12.22,13)	# create "numbers" 
+class(numbers) 				# what type is it? 
+paste(stuff,numbers)      # join things together as character strings 
+3:7      # create a consecutive sequence of numbers 
+paste(1:4,stuff,numbers,"whatever!")       
+```
+
+### P3. Viewing data
+```{r}
+women # display the data set called 'women' 
+dim(women) # display the numbers of rows and columns 
+names(women) # display the column headings 
+women$weight # display the column called 'weight' within 'women'
+women[4,2] # display row 4 column 2 
+plot(women$height, women$weight) # graph 'height' versus 'weight' for 'women' 
+attach(women) # declare 'women' to be the default data set 
+plot(height, weight, type="l") # graph 'height' vs. 'weight', specifying the line type 
+plot(height, weight, type="b", col="red", bty="l", cex=2, xlab="Height", ylab="Weight") 
+```
+
+### P4. Importing your own data
+```{r}
+schoolkids <- data.frame(height=rnorm(100), weight=rnorm(100),
+	sex=sample(1:2, 100, replace=TRUE))
+schoolkids            # look at the entire data set 
+names(schoolkids) 	    # list the variables 
+attach(schoolkids)	    # Make it the default data set 
+summary(schoolkids) 
+schoolkids$sex <- factor(sex) 
+# Deduce what each of these commands does: 
+schoolkids[2,4] 
+schoolkids[,2] 
+schoolkids[2,] 
+schoolkids[,1:3] 
+schoolkids[height>70,]  
+```
+
+### P5. Graphing data
+```{r}
+pairs(schoolkids)  # make pair-wise plots with columns in 'schoolkids' 
+plot(height, weight) 		# Plot height (x-axis) against weight (y-axis) 
+plot(height,weight,xaxt="n",yaxt="n")   # set up a blank graph with axes  
+plot(height,weight,type="n",  
+ bty="l",  # Remove the surrounding box 
+ xlab="Height in inches",  # set a label for the horizontal axis 
+ ylab="Weight in pounds",  # set a label for the vertical axis 
+ cex.axis=1.5,  # multiply the axis size by 1.5 
+ cex.lab=1.5)  # multiply the axis label size by 1.5 
+points(height[sex==1], weight[sex==1])  # add points for the 1st sex 
+points(height[sex==2],weight[sex==2],col="red")  # add red points for the 2nd sex
+legend(52,160,c("Male","Female"),col=c("black","red"),pch=c(1,1) ) # add  a legend 
+```
+
+### P6. Simulating dice throws
+```{r}
+die <- c(1:6)				# define the possible outcomes for a 6 sided die 
+die 						# have a look at your 'die' 
+sample(die, 1, replace = TRUE)	# take a random 'throw of the of 'die' 
+sample(die, 10, replace = TRUE)		# observe 10 simulated dice throws 
+table(sample(die, size = 10000, replace = TRUE))	 
+# construct a frequency table for 10,000 dice throws 
+mean(sample(die, 10, replace = TRUE))	# observe the mean (average) of ten throws 
+# Repeat the previous command several times 
+# Observe that the sample mean is "scattered around" a "true mean" of 3.5 
+# Try this again, but with sample size increased to 100 
+# The "scatter around the true mean" decreases! 
+```
+
+### P7. Simulating data within a 'for loop'
+```{r}
+# In order to visualize the "scatter around a true mean", 
+# the following code will generate and store 1000 such means 
+results <- vector()				# set up space to hold results 
+length(results) <- 1000			# size it to hold exactly 1000 means 
+for (i in 1:1000) { # set up a 'for loop' that will iterate 1000 times 
+	# save the mean at location 'i' of 'results' 
+	results[i] <- mean(sample(die, 10, replace = TRUE)) 
+}                # repeat 'for loop' at the next value of 'i' 
+hist(results, xlim = c(1,6))	# A histogram of the 1000 means 
+# Repeat, but with sample size increased to 100 
+# The "scatter around the true mean" decreases! 
+```
