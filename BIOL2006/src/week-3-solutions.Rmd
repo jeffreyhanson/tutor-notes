@@ -293,7 +293,7 @@ Here we have a contingency table for case and control individuals genotyped at a
 	pchisq(23.929, df=6, lower.tail=FALSE)
 	```
 	
-	* Our p-value is `r  format.pval(pchisq(23.929, df=6, lower.tail=FALSE))`. Therefore the predictions from our model are significantly different to the observed data, and so we cannot reject the null hypothesis. Thus we do not yet have evidence to suggest that extinctions cluster in time.
+	* Our p-value is `r  format.pval(pchisq(23.929, df=6, lower.tail=FALSE))`. Therefore the predictions from our model are significantly different to the observed data, and so we can reject the null hypothesis. Thus we do not yet have evidence to suggest that extinctions cluster in time.
 	
 	
 ## \texttt{R} practical session

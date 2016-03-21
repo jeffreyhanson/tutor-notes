@@ -5,18 +5,25 @@ clean:
 	rm pdf/* -rf
 
 # make documents
-documents: pdf/week-1.pdf pdf/week-2.pdf pdf/week-3.pdf
+documents: pdf/week-1-questions.pdf pdf/week-1-solutions.pdf pdf/week-2-questions.pdf pdf/week-2-solutions.pdf pdf/week-3-questions.pdf pdf/week-3-solutions.pdf
 
-pdf/week-1.pdf: src/week-1.Rmd src/preamble-latex.tex
-	R -e "rmarkdown::render('src/week-1.Rmd')"
-	mv src/week-1.pdf pdf/
+pdf/week-1-solutions.pdf: src/week-1-solutions.Rmd src/preamble-latex.tex
+	R -e "rmarkdown::render('src/week-1-solutions.Rmd')"
+	mv src/week-1-solutions.pdf pdf/
 
-pdf/week-2.pdf: src/week-2.Rmd src/preamble-latex.tex
-	R -e "rmarkdown::render('src/week-2.Rmd')"
-	mv src/week-2.pdf pdf/
+pdf/week-2-solutions.pdf: src/week-2-solutions.Rmd src/preamble-latex.tex
+	R -e "rmarkdown::render('src/week-2-solutions.Rmd')"
+	mv src/week-2-solutions.pdf pdf/
 
-pdf/week-3.pdf: src/week-3.Rmd src/preamble-latex.tex
-	R -e "rmarkdown::render('src/week-3.Rmd')"
-	mv src/week-3.pdf pdf/
+pdf/week-3-solutions.pdf: src/week-3-solutions.Rmd src/preamble-latex.tex
+	R -e "rmarkdown::render('src/week-3-solutions.Rmd')"
+	mv src/week-3-solutions.pdf pdf/
 
+pdf/week-1-questions.pdf: src/week-1-questions.pdf
+	cp src/week-1-questions.pdf pdf/week-1-questions.pdf
 
+pdf/week-2-questions.pdf: src/week-2-questions.pdf
+	cp src/week-2-questions.pdf pdf/week-2-questions.pdf
+
+pdf/week-3-questions.pdf: src/week-3-questions.pdf
+	cp src/week-3-questions.pdf pdf/week-3-questions.pdf
