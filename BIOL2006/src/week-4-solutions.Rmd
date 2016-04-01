@@ -1,0 +1,52 @@
+---
+title: "Week 4 Problem Based Learning and Practical Solutions"
+author: |
+  | Jeffrey O. Hanson$^1$
+  | $^1$School of Biological Sciences, The University of Queensland, Brisbane, QLD, Australia
+  | Correspondance should be addressed to jeffrey.hanson@uqconnect.edu.au
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  rmarkdown::pdf_document:
+    toc: true
+    toc_depth: 5
+    keep_tex: no
+    includes:
+      in_header: preamble-latex.tex
+fontsize: 11pt
+documentclass: article
+bibliography: ref_lib.bib
+csl: reference-style.csl
+---
+
+## Problem based learning workshop
+### Experiment 1
+1. Design an experiment to test the effect of 4 different concentrations of salinity on a species of reef fish. Draw a diagram of the experimental set-up (eg. tanks etc), assign treatment to tanks, and indicate numbers of fish in each tank.
+	+ Randomization and replication
+	+ No logistical limits
+	+ Got to draw a diagram
+	+ Should be multiple different tanks per treatment
+	+ Random placement of tanks on the paper
+	+ Best practice is one fish per tanks with infinite tanks due to independence
+	+ But what happens if you have $n$ tanks with multiple fish the tank? This increases precision
+
+### Experiment 2
+2. Using 60 people (assume equal sex ratio), develop an experimental design that can test the probability that just the "right" amount of alcohol improves the ability of male and female undergraduates to play pool. Draw a single graph of what you think the results might look like.
+* Notes
+	+ logistical limit
+	+ treatment is number of drinks -- how many? Most people will want to measure subjects more than once. This is legitimate but more complicated. So assume you can only measure each person once.
+	+ need to define simple metric of how good a person is at pool. Avoid round robin. Think about shooting balls into the pockets.
+	+ single session 
+	+ Question specifically asks about sex. But does not refer to other covariates (eg. weight). Get them to think about this.
+	+ Get them to think about what the data actually looks like.
+
+## \texttt{R} practical session
+### General notes
+* Get them to read through the data pages before going through the \texttt{R} code.
+* Random factor is the replication level. Eg. the fish tank in the previous day. You can have multiple fish in the same tank. The tank ID is the random factor.
+
+### P1. 
+* Highlight that the `lm` is the wrong way to treat random factors, and that `lmer` is the right way to do this.
+
+
+
+ 

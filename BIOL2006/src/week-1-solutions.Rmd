@@ -12,13 +12,216 @@ output:
     keep_tex: no
     includes:
       in_header: preamble-latex.tex
-fontsize: 11pt
+fontsize: k11pt
 documentclass: article
 bibliography: ref_lib.bib
 csl: reference-style.csl
 ---
 
+
+```{r, include=FALSE}
+library(knitr)
+library(plyr)
+library(dplyr)
+library(ggplot2)
+```
 ## Problem based learning workshop
+### Activity 1
+
+1. _Write down the probabilities for rolling a 1 to a 6 using a fair, and using an unfair die. Calculate the mean of their sum for each die._
+
+	* Fair dice
+		+ The following table has the probability for each outcome.
+		+ |Die number|Probability|
+			|:--------:|:---------:|
+			| 1 | $\frac{1}{6} = 0.167$ |
+			| 2 | $\frac{1}{6} = 0.167$ |
+			| 3 | $\frac{1}{6} = 0.167$ |
+			| 4 | $\frac{1}{6} = 0.167$ |
+			| 5 | $\frac{1}{6} = 0.167$ |
+			| 6 | $\frac{1}{6} = 0.167$ |
+		
+		\begin{align*}
+		\text{mean of sum} &= (\frac{1}{6} \times 1) + (\frac{1}{6} \times 2) + (\frac{1}{6} \times 3) +(\frac{1}{6} \times 4) + (\frac{1}{6} \times 5) + (\frac{1}{6} \times 6) \\
+			&= 3.5 \\
+		\end{align*}
+		
+	* Unfair dice
+		+ __This unfair die has the numbers 5 and 6 replaced with a 1.__
+		+ The following table has the probability for each outcome.
+		+ |Die number|Probability|
+			|:--------:|:---------:|
+			| 1 | $\frac{3}{6} = 0.5$ |
+			| 2 | $\frac{1}{6} = 0.167$ |
+			| 3 | $\frac{1}{6} = 0.167$ |
+			| 4 | $\frac{1}{6} = 0.167$ |
+			| 5 | $\frac{0}{6} = 0$ |
+			| 6 | $\frac{0}{6} = 0$ |
+	
+		+ 
+		\begin{align*}
+		\text{mean of sum} &= (\frac{3}{6} \times 1) + (\frac{1}{6} \times 2) + (\frac{1}{6} \times 3) +(\frac{1}{6} \times 4) + (\frac{0}{6} \times 5) + (\frac{0}{6} \times 6) \\
+			&= 2 \\
+		\end{align*}
+
+2. _Write down the expected probabilities for the possible sums when throwing two fair die. Compare them to the expected probabilities for throwing possible sums when throwing one fair and one unfair die._
+
+	* Fair dice
+		+ First, let's write out all possible outcomes.
+		
+		```{r}
+		df1 <- expand.grid(D1=1:6, D2=1:6) %>% 
+			mutate(sum=D1+D2)
+		kable(
+			df1,
+			digits=2,
+			align=c('c', 'c', 'c'),
+			col.names=c('First dice', 'Second dice', 'Sum')
+		)
+		```
+		
+		+ Now let's use this to calculate the probability for throwing each sum. The total number of different outcomes is the number of rows in the table (`r nrow(df1)`). The probability of a given sum occurring is the number of times the sum appears in the previous table (ie. the frequency) divided by the number of potential outcomes (ie. `r nrow(df1)`).
+
+		```{r}
+		df2 <- df1 %>% mutate(sum=factor(sum)) %>% 
+			group_by(sum) %>%
+			summarize(freq=length(sum)) %>% 
+			ungroup() %>%
+			mutate(prob=paste0('$\\frac{',freq,'}{',nrow(df1),'} = ',
+				round(freq/nrow(df1),3),'$'))
+		kable(
+			df2,
+			digits=3,
+			align=c('c', 'c', 'c'),
+			col.names=c('Sum', 'Frequency', 'Probability')
+		)
+		```
+		
+	* Unfair dice
+		
+		+ __This unfair die has the numbers 5 and 6 replaced with a 1.__
+		+ First, let's write out all possible outcomes.
+		
+		```{r}
+		df3 <- expand.grid(D1=1:6, D2=c(1,1,1,2,3,4)) %>% mutate(sum=D1+D2)
+		kable(
+			df3,
+			digits=3,
+			align=c('c', 'c', 'c'),
+			col.names=c('First dice', 'Second dice', 'Sum')
+		)
+		```
+		
+		+ Now let's use this to calculate the probability for throwing each sum.
+
+		```{r}
+		df4 <- df3 %>% mutate(sum=factor(sum)) %>% 
+			group_by(sum) %>%
+			summarize(freq=length(sum)) %>% 
+			ungroup() %>%
+			mutate(
+				prob=paste0('$\\frac{',freq,'}{',nrow(df3),'} = ',
+				round(freq/nrow(df3),3),'$'))
+		kable(
+			df4,
+			digits=2,
+			align=c('c', 'c', 'c'),
+			col.names=c('Sum', 'Frequency', 'Probability')
+		)
+		```
+	
+3. Draw the probability distribution for the sum of two fair dice and compare it to the probability distribution for the sum of one fair and one unfair die.
+
+	* We will use the probabilities calculated in the previous question to draw these bars.
+	
+	```{r}
+	df5 <- rbind(
+		mutate(df4, Probability=freq/nrow(df4), Die='Unfair'),
+		mutate(df2, Probability=freq/nrow(df2), Die='Fair')) %>%
+		rename(Sum=sum)
+	
+	ggplot(data=df5, aes(x=Sum, y=Probability)) +
+		geom_bar(stat='identity') +
+		facet_wrap(~ Die) +
+		theme_classic()
+	```
+
+4. Discuss with your partner the idea of null distribution versus observed distribution.
+	* The observed distribution is the data you collect
+	* The null distribution represents the distribution you expect and want to compare the data to. 
+
+### Activity 2
+
+* Instructions
+	+ Roll 2 fair die 10 times
+	
+		```{r}
+		outcomes.10 <- replicate(sample(1:6, 2, replace=TRUE), n=10)
+		```
+	+ Record the outcomes
+	
+		```{r}
+		print(outcomes.10)
+		```
+	+ Count how many times each sum occurs
+	
+		```{r}
+		sums.10 <- apply(outcomes.10, 2, sum)
+		```
+
+	+ Plot a histogram showing the frequency of each sum.
+	
+		```{r}
+		hist(sums.10)
+		```
+		
+	+ Repeat 1-3 but rolling the dice 40 times.
+	
+		```{r}
+		outcomes.40 <- replicate(sample(1:6, 2, replace=TRUE), n=40)
+		print(outcomes.40)
+		sums.40 <- apply(outcomes.40, 2, sum)
+		```
+
+	+ Compare the two histograms 
+	
+		```{r}
+		par(mfrow=c(1,2))
+		hist(sums.10, main='Histogram for 10 dice rolls')
+		hist(sums.40, main='Histogram for 40 dice rolls')
+		par(mfrow=c(1,1))
+		```
+	
+1. What is the mean value of the observed sums for each experiment.
+
+	* The mean values are `r mean(sums.10)` and  `r mean(sums.40)`. 
+
+2. How does the mean value obtained (from rolling dice) change with increasing number of rolls?
+
+	* The mean value gets closer to the estimate based on probability calculations with more rolls.
+
+3. How does the width of the histogram of the means change with increasing number of rolls?
+
+	* The width of the histogram gets smaller.
+
+#### Activity 3
+* Instructions
+	+ Divide into two teams of 8 per group.
+
+	+ Each team chooses a pair of dice.
+
+	+ Each team rolls the dice 30 times for the other team (do not let them see your dice).
+
+	+ The other team records the values of the two dice for each of the 30 rolls.
+
+	+ Exchange rolls.
+
+	+ Here are the rolls we recieved from an imaginary team:
+	
+1. Can you tell whether the other team used a modified die?
+
+
+2. What would you do to test the hypothesis that the other team used a modified die?
 
 
 ## \texttt{R} practical session
